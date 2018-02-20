@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+
+using static System.Linq.Enumerable;
+using static System.Console;
 
 namespace Exercises.Chapter1
 {
@@ -29,6 +33,21 @@ namespace Exercises.Chapter1
             var originalList = new List<int> {5,7,1};
             originalList.Sort();
             originalList.ToList().ForEach(Console.WriteLine);
+        }
+
+
+        internal static void Listing3()
+        {
+            var nums = Range(-10000, 20001).Reverse().ToList();
+            Action task1 = () => WriteLine(nums.Sum());
+            Action task2 = () => {
+                nums.Sort();
+                WriteLine(nums.Sum());
+            };
+            Action task3 = () => WriteLine(nums.OrderBy(x => x).Sum());
+            Parallel.Invoke(task1, task2);
+            // Al utilizar el OrderBy, como no modifica la colección se comporta correctamente
+            Parallel.Invoke(task1, task3);
         }
     }
 }
